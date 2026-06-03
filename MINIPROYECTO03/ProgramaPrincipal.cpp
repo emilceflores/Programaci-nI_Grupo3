@@ -14,26 +14,6 @@ struct structProducto
     double precioUnitario;
 };
 
-bool codigoexiste(int codigobuscado) 
-{
-    ifstream archivo("PRODUCTOS.BIN", ios::binary);
-
-    structProducto producto;
-
-    while (archivo.read((char*)&producto, sizeof(producto))) 
-    {
-        if (producto.codigo == codigobuscado) 
-        {
-            archivo.close();
-            return true;
-        }
-    }
-
-    archivo.close();
-    return false;
-}
-
-
 void mostrarmenu() 
 {
     cout << "  FARMACIAS CHAVEZ\n";
