@@ -28,7 +28,7 @@ int main()
 
     do 
     {
-        mostrarMenu();
+        mostrarmenu();
         cin >> opcion;
 
         if (opcion == 1) 
