@@ -10,8 +10,8 @@ struct structProducto
 {
     int codigo;
     char nombre[30];
-    int cantidadinicial;
-    double preciounitario;
+    int cantidadInicial;
+    double precioUnitario;
 };
 
 bool codigoexiste(int codigobuscado) 
@@ -33,44 +33,26 @@ bool codigoexiste(int codigobuscado)
     return false;
 }
 
+
 void mostrarmenu() 
 {
-    cout << " FARMACIAS CHAVEZ";
-    cout << "1. Adicionar producto";
-    cout << "2. Procesar ventas y listar resultados";
-    cout << "3. Salir";
+    cout << "  FARMACIAS CHAVEZ\n";
+    cout << "1. Adicionar producto\n";
+    cout << "2. Procesar ventas y listar resultados\n";
+    cout << "3. Salir\n";
     cout << "Elija una opcion: ";
 }
 
 int main() 
 {
     int opcion;
+
     do 
     {
         mostrarmenu();
         cin >> opcion;
-
-        if (opcion == 1) 
-        {
-            cout << "\nAqui se adicionara un producto";
-
-        } 
-        else if (opcion == 2) 
-        {
-            cout << "\nAqui se procesaran las ventas";
-
-        } 
-        else if (opcion == 3) 
-        {
-            cout << "\nSaliendo del programa";
-
-        } 
-        else 
-        {
-            cout << "\nOpcion incorrecta";
-        }
-
-    } while (opcion != 3);
+    } 
+    while (opcion != 3);
 
     return 0;
 }
