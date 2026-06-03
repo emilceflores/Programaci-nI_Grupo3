@@ -10,12 +10,32 @@ struct structProducto
 {
     int codigo;
     char nombre[30];
-    int cantidadInicial;
-    double precioUnitario;
+    int cantidadinicial;
+    double preciounitario;
 };
-void mostrarMenu() 
+
+bool codigoexiste(int codigobuscado) 
 {
-    cout << " SISTEMA FARMACIAS CHAVEZ";
+    ifstream archivo("PRODUCTOS.BIN", ios::binary);
+
+    structProducto producto;
+
+    while (archivo.read((char*)&producto, sizeof(producto))) 
+    {
+        if (producto.codigo == codigobuscado) 
+        {
+            archivo.close();
+            return true;
+        }
+    }
+
+    archivo.close();
+    return false;
+}
+
+void mostrarmenu() 
+{
+    cout << " FARMACIAS CHAVEZ";
     cout << "1. Adicionar producto";
     cout << "2. Procesar ventas y listar resultados";
     cout << "3. Salir";
@@ -27,7 +47,7 @@ int main()
     int opcion;
     do 
     {
-        mostrarMenu();
+        mostrarmenu();
         cin >> opcion;
 
         if (opcion == 1) 
