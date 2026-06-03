@@ -3,16 +3,16 @@
 #include <string>
 #include <cstring>
 #include <iomanip>
+
 using namespace std;
 
 struct structProducto 
 {
     int codigo;
     char nombre[30];
-    int cantidadinicial;
-    double preciounitario;
+    int cantidadInicial;
+    double precioUnitario;
 };
-
 void mostrarMenu() 
 {
     cout << " SISTEMA FARMACIAS CHAVEZ";
@@ -21,10 +21,10 @@ void mostrarMenu()
     cout << "3. Salir";
     cout << "Elija una opcion: ";
 }
+
 int main() 
 {
     int opcion;
-
     do 
     {
         mostrarMenu();
@@ -43,14 +43,14 @@ int main()
         else if (opcion == 3) 
         {
             cout << "\nSaliendo del programa";
+
         } 
         else 
         {
             cout << "\nOpcion incorrecta";
         }
 
-    } 
-        while (opcion != 3);
+    } while (opcion != 3);
 
     return 0;
 }
