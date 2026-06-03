@@ -33,15 +33,15 @@ int main()
 
         if (opcion == 1) 
         {
-            cout << "\nAqui se adicionara un producto";
+            cout << "\nse adicionara un producto";
         } 
         else if (opcion == 2) 
         {
-            cout << "\nAqui se procesaran las ventas";
+            cout << "\nse procesaran las ventas";
         } 
         else if (opcion == 3) 
         {
-            cout << "\nAqui se listaran los productos";
+            cout << "\nse listaran los productos";
         } 
         else if (opcion == 4) 
         {
