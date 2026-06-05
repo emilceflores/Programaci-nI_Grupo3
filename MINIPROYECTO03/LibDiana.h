@@ -14,7 +14,7 @@ void AdicionarVentaManual(string nombreArchivoTexto)
 {
     ofstream archivo;
     
-    int ci;
+    long int ci;
     char nombreCliente[30];
     int codigoProducto;
     int cantidadComprada;
