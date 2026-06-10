@@ -4,14 +4,14 @@
 // Fecha creación: 1-06-2026
 // Nombre del miniproyecto : Sistema de Inventario y Ventas - Farmacias Chávez
 #include <iostream>
-#include <fstream>
-#include <string>
 #include <cstring>
+#include <fstream>
 #include <iomanip>
+#include <cstdio>
 
 using namespace std;
 
-// Estructura donde se guardan los datos de cada producto
+// Estructura del producto
 struct structProducto
 {
     int codigo;
@@ -20,218 +20,226 @@ struct structProducto
     double precioUnitario;
 };
 
-// Verifica si el codigo ya existe en PRODUCTOS.BIN
+// Verifica si el codigo ya existe
 bool codigoexiste(int codigobuscado)
 {
-    ifstream archivo("PRODUCTOS.BIN", ios::binary);
+    ifstream archivo;
     structProducto producto;
+    bool existe = false;
 
-    while (archivo.read((char*)&producto, sizeof(producto)))
+    archivo.open("PRODUCTOS.BIN", ios::binary);
+
+    if (archivo.good())
     {
-        if (producto.codigo == codigobuscado)
+        while (archivo.read((char*)&producto, sizeof(structProducto)))
         {
-            archivo.close();
-            return true;
+            if (producto.codigo == codigobuscado)
+            {
+                existe = true;
+            }
         }
     }
 
     archivo.close();
-    return false;
+
+    return existe;
 }
 
-// Verifica si el nombre ya existe en PRODUCTOS.BIN
+// Verifica si el nombre ya existe
 bool nombreexiste(char nombrebuscado[])
 {
-    ifstream archivo("PRODUCTOS.BIN", ios::binary);
+    ifstream archivo;
     structProducto producto;
+    bool existe = false;
 
-    while (archivo.read((char*)&producto, sizeof(producto)))
+    archivo.open("PRODUCTOS.BIN", ios::binary);
+
+    if (archivo.good())
     {
-        if (strcmp(producto.nombre, nombrebuscado) == 0)
+        while (archivo.read((char*)&producto, sizeof(structProducto)))
         {
-            archivo.close();
-            return true;
+            if (strcmp(producto.nombre, nombrebuscado) == 0)
+            {
+                existe = true;
+            }
         }
     }
 
     archivo.close();
-    return false;
+
+    return existe;
 }
 
-// Punto 1: adiciona un producto al archivo binario
+// PUNTO 1: Adicionar producto
 void adicionarProducto()
 {
+    ofstream archivo;
     structProducto producto;
 
-    cout << "\nADICIONAR PRODUCTO\n";
+    cout << "ADICIONAR PRODUCTO" << endl;
+    cout << "==================" << endl;
 
-    cout << "Codigo: ";
+    cout << "Ingrese codigo del producto: ";
     cin >> producto.codigo;
 
     if (codigoexiste(producto.codigo))
     {
-        cout << "Error: ese codigo ya existe.\n";
-        return;
+        cout << "\nError: El codigo ya existe." << endl;
     }
-
-    cin.ignore();
-
-    cout << "Nombre del producto: ";
-    cin.getline(producto.nombre, 30);
-
-    if (nombreexiste(producto.nombre))
+    else
     {
-        cout << "Error: ese nombre de producto ya existe.\n";
-        return;
-    }
+        cin.ignore();
 
-    cout << "Cantidad inicial: ";
-    cin >> producto.cantidadInicial;
+        cout << "Ingrese nombre del producto: ";
+        cin.getline(producto.nombre, 30);
 
-    cout << "Precio unitario: ";
-    cin >> producto.precioUnitario;
-
-    ofstream archivo("PRODUCTOS.BIN", ios::binary | ios::app);
-
-    archivo.write((char*)&producto, sizeof(producto));
-
-    archivo.close();
-
-    cout << "\nProducto guardado correctamente.\n";
-}
-
-// Acumula ventas del mismo codigo de producto
-void agregarVenta(int codigoVenta, int cantidadVenta, int codigos[], int cantidades[], int &n)
-{
-    for (int i = 0; i < n; i++)
-    {
-        if (codigos[i] == codigoVenta)
+        if (nombreexiste(producto.nombre))
         {
-            cantidades[i] = cantidades[i] + cantidadVenta;
-            return;
+            cout << "\nError: El nombre ya existe." << endl;
         }
-    }
-
-    codigos[n] = codigoVenta;
-    cantidades[n] = cantidadVenta;
-    n++;
-}
-
-// Busca la cantidad vendida de un producto
-int buscarCantidadVendida(int codigoProducto, int codigos[], int cantidades[], int n)
-{
-    for (int i = 0; i < n; i++)
-    {
-        if (codigos[i] == codigoProducto)
+        else
         {
-            return cantidades[i];
-        }
-    }
+            cout << "Ingrese cantidad inicial: ";
+            cin >> producto.cantidadInicial;
 
-    return 0;
-}
+            cout << "Ingrese precio unitario: ";
+            cin >> producto.precioUnitario;
 
-// Punto 2: procesa VENTAS.txt, muestra reporte y actualiza stock
-void procesarVentas()
-{
-    ifstream ventas("VENTAS.txt");
+            archivo.open("PRODUCTOS.BIN", ios::binary | ios::app);
 
-    if (!ventas)
-    {
-        cout << "\nNo se pudo abrir el archivo VENTAS.txt\n";
-        return;
-    }
-
-    int codigos[100];
-    int cantidades[100];
-    int n = 0;
-
-    string ci;
-    string nombreCliente;
-    string codigoTexto;
-    string cantidadTexto;
-
-    while (getline(ventas, ci, ';'))
-    {
-        getline(ventas, nombreCliente, ';');
-        getline(ventas, codigoTexto, ';');
-        getline(ventas, cantidadTexto);
-
-        int codigoVenta = stoi(codigoTexto);
-        int cantidadVenta = stoi(cantidadTexto);
-
-        agregarVenta(codigoVenta, cantidadVenta, codigos, cantidades, n);
-    }
-
-    ventas.close();
-
-    fstream archivo("PRODUCTOS.BIN", ios::binary | ios::in | ios::out);
-
-    if (!archivo)
-    {
-        cout << "\nNo se pudo abrir el archivo PRODUCTOS.BIN\n";
-        return;
-    }
-
-    structProducto producto;
-
-    cout << "\nREPORTE DE VENTAS\n\n";
-
-    cout << left
-         << setw(10) << "CODIGO"
-         << setw(25) << "NOMBRE PRODUCTO"
-         << setw(15) << "CANT. INICIAL"
-         << setw(10) << "PRECIO"
-         << setw(15) << "CANT. VENDIDA"
-         << setw(12) << "TOTAL Bs."
-         << setw(20) << "ESTADO"
-         << endl;
-
-    cout << "====================================================================================================\n";
-
-    while (archivo.read((char*)&producto, sizeof(producto)))
-    {
-        int cantidadVendida = buscarCantidadVendida(producto.codigo, codigos, cantidades, n);
-
-        if (cantidadVendida > 0)
-        {
-            int cantidadAntes = producto.cantidadInicial;
-            double total = cantidadVendida * producto.precioUnitario;
-
-            if (cantidadVendida <= producto.cantidadInicial)
+            if (archivo.good())
             {
-                producto.cantidadInicial = producto.cantidadInicial - cantidadVendida;
-
-                cout << left
-                     << setw(10) << producto.codigo
-                     << setw(25) << producto.nombre
-                     << setw(15) << cantidadAntes
-                     << setw(10) << fixed << setprecision(2) << producto.precioUnitario
-                     << setw(15) << cantidadVendida
-                     << setw(12) << fixed << setprecision(2) << total
-                     << setw(20) << "Venta realizada"
-                     << endl;
-
-                archivo.seekp(-int(sizeof(producto)), ios::cur);
-                archivo.write((char*)&producto, sizeof(producto));
-                archivo.seekg(archivo.tellp());
+                archivo.write((char*)&producto, sizeof(structProducto));
+                cout << "\nProducto registrado correctamente." << endl;
             }
             else
             {
-                cout << left
-                     << setw(10) << producto.codigo
-                     << setw(25) << producto.nombre
-                     << setw(15) << cantidadAntes
-                     << setw(10) << fixed << setprecision(2) << producto.precioUnitario
-                     << setw(15) << cantidadVendida
-                     << setw(12) << fixed << setprecision(2) << total
-                     << setw(20) << "Stock insuficiente"
-                     << endl;
+                cout << "\nError: No se pudo abrir PRODUCTOS.BIN" << endl;
             }
+
+            archivo.close();
         }
     }
+}
 
-    archivo.close();
+// PUNTO 2: Procesar ventas y listar resultados
+void procesarVentas()
+{
+    ifstream archivo;
+    ofstream temporal;
+    ifstream ventas;
 
-    cout << "\nVentas procesadas correctamente.\n";
+    structProducto producto;
+
+    int ci;
+    char nombreCliente[30];
+    int codigoVenta;
+    int cantidadVenta;
+    char separador;
+
+    int cantidadVendida;
+    int cantidadAntes;
+    double total;
+
+    archivo.open("PRODUCTOS.BIN", ios::binary);
+    temporal.open("TEMP.BIN", ios::binary);
+
+    if (archivo.good() && temporal.good())
+    {
+        cout << "\nREPORTE DE VENTAS" << endl;
+        cout << "=================" << endl;
+
+        cout << left
+             << setw(10) << "CODIGO"
+             << setw(25) << "NOMBRE PRODUCTO"
+             << setw(15) << "CANT. INICIAL"
+             << setw(10) << "PRECIO"
+             << setw(15) << "CANT. VENDIDA"
+             << setw(12) << "TOTAL Bs."
+             << setw(20) << "ESTADO"
+             << endl;
+
+        cout << "====================================================================================================" << endl;
+
+        while (archivo.read((char*)&producto, sizeof(structProducto)))
+        {
+            cantidadVendida = 0;
+
+            ventas.open("VENTAS.txt");
+
+            if (ventas.good())
+            {
+                while (ventas >> ci >> separador)
+                {
+                    ventas.getline(nombreCliente, 30, ';');
+
+                    ventas >> codigoVenta >> separador;
+                    ventas >> cantidadVenta;
+
+                    ventas.ignore();
+
+                    if (codigoVenta == producto.codigo)
+                    {
+                        cantidadVendida = cantidadVendida + cantidadVenta;
+                    }
+                }
+            }
+            else
+            {
+                cout << "\nNo se pudo abrir VENTAS.txt" << endl;
+            }
+
+            ventas.close();
+
+            if (cantidadVendida > 0)
+            {
+                cantidadAntes = producto.cantidadInicial;
+                total = cantidadVendida * producto.precioUnitario;
+
+                if (cantidadVendida <= producto.cantidadInicial)
+                {
+                    producto.cantidadInicial = producto.cantidadInicial - cantidadVendida;
+
+                    cout << left
+                         << setw(10) << producto.codigo
+                         << setw(25) << producto.nombre
+                         << setw(15) << cantidadAntes
+                         << setw(10) << fixed << setprecision(2) << producto.precioUnitario
+                         << setw(15) << cantidadVendida
+                         << setw(12) << fixed << setprecision(2) << total
+                         << setw(20) << "Venta realizada"
+                         << endl;
+                }
+                else
+                {
+                    cout << left
+                         << setw(10) << producto.codigo
+                         << setw(25) << producto.nombre
+                         << setw(15) << cantidadAntes
+                         << setw(10) << fixed << setprecision(2) << producto.precioUnitario
+                         << setw(15) << cantidadVendida
+                         << setw(12) << fixed << setprecision(2) << total
+                         << setw(20) << "Stock insuficiente"
+                         << endl;
+                }
+            }
+
+            temporal.write((char*)&producto, sizeof(structProducto));
+        }
+
+        archivo.close();
+        temporal.close();
+
+        remove("PRODUCTOS.BIN");
+        rename("TEMP.BIN", "PRODUCTOS.BIN");
+
+        cout << "\nVentas procesadas correctamente." << endl;
+    }
+    else
+    {
+        cout << "\nError: No se pudo abrir PRODUCTOS.BIN o crear TEMP.BIN" << endl;
+
+        archivo.close();
+        temporal.close();
+    }
 }
