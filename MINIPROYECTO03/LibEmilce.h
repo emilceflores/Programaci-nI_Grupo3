@@ -4,13 +4,6 @@
 
 using namespace std;
 
-struct structProducto
-{
-    int codigo;
-    char nombre[30];
-    int cantidadInicial;
-    double precioUnitario;
-};
 
 void ModificarProducto()
 {
