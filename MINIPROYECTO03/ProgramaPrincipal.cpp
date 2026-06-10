@@ -6,27 +6,31 @@
 
 using namespace std;
 
-void Mostrarmenu()
-{
-    cout << "FARMACIAS CHAVEZ" << endl;
-    cout << "================" << endl;
-    cout << "1. Adicionar producto" << endl;
-    cout << "2. Adicionar venta manual" << endl;
-    cout << "3. Modificar producto" << endl;
-    cout << "0. Salir" << endl;
-    cout << "Seleccione una opcion: ";
-}
-
+void Mostrarmenu();
 int main() 
 {
-    int opcion;
+    Mostrarmenu();
 
-    do 
+    return 0;
+} 
+void Mostrarmenu()
+{
+    int opcion=0 ;
+    do
     {
         system("cls");
 
-        Mostrarmenu();
-        cin >> opcion;
+        cout << "FARMACIAS CHAVEZ" << endl;
+        cout << "================" << endl;
+        cout << "\t1. Adicionar producto" << endl;
+        cout << "\t2. Procesar Ventas y Listar Resultados" << endl;
+        cout << "\t3. Buscar producto por codigo" << endl;
+        cout << "\t4. Modificar Atributos por producto" << endl;
+        cout << "\t5. Adicionar Ventas Manuales" << endl;
+        cout << "\t0. Salir" << endl;
+        cout << "Seleccione una opcion: "; 
+        cin>>opcion;
+
         switch(opcion)
         {
             case 1:
@@ -36,13 +40,27 @@ int main()
                 break;
 
             case 3:
-                ModificarProducto();
-                system("pause");
                 break;
+
+            case 4:
+                ModificarProducto();
+                break;
+
+            case 5:
+                break;
+            
+            default:
+                if (opcion !=0)
+                {
+                    cout<<"Opcion no valida."<<endl;
+                    system("pause");
+                }
+                break;
+                
         }
+    } while (opcion != 0);
+    system("cls");
+    
+}
 
-    } while(opcion != 0);
-
-    return 0;
-} 
     
