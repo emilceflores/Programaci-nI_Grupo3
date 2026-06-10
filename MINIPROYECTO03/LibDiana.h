@@ -10,14 +10,20 @@
 
 using namespace std;
 
-void BuscarProductoPorCodigo(string nombreArchivoBinario, int codigoBuscar)
+void BuscarProductoPorCodigo()
 {
-    ifstream archivo;
-    structProducto producto; 
-    bool encontrado = false;
-    system("cls");
+    ifstream archivo;  //Leer archivo
 
-    archivo.open(nombreArchivoBinario, ios::binary);
+    structProducto producto; 
+    int codigoBuscar;
+    bool encontrado = false;
+
+    cout << "BUSQUEDA DE PRODUCTOS" << endl;
+    cout << "=====================" << endl;
+    cout << "Ingrese el codigo de producto a buscar: ";
+    cin >> codigoBuscar;
+
+    archivo.open("PRODUCTOS.BIN", ios::binary);
 
     if (archivo.good())
     {
@@ -34,7 +40,7 @@ void BuscarProductoPorCodigo(string nombreArchivoBinario, int codigoBuscar)
                 encontrado = true;
             }
         }
-
+        
         if (!encontrado)
         {
             cout << "\nEl producto con codigo [" << codigoBuscar << "] no existe en el inventario." << endl;
@@ -42,17 +48,16 @@ void BuscarProductoPorCodigo(string nombreArchivoBinario, int codigoBuscar)
     }
     else
     {
-        cout << "Error: No se pudo abrir el archivo de inventario " << nombreArchivoBinario << endl;
+        cout << "Error: No se pudo abrir el archivo de inventario PRODUCTOS.BIN" << endl;
     }
-
-    archivo.close();
+    archivo.close(); 
 }
 
-void AdicionarVentaManual(string nombreArchivoTexto)
+void AdicionarVentaManual()
 {
-    ofstream archivo; //EScribir en el archivo
+    ofstream archivo;
     
-    long int ci;
+    int ci;
     char nombreCliente[30];
     int codigoProducto;
     int cantidadComprada;
@@ -62,7 +67,7 @@ void AdicionarVentaManual(string nombreArchivoTexto)
     
     cout << "Ingrese CI del Cliente: "; 
     cin >> ci;
-    cin.ignore();
+    cin.ignore(); 
     
     cout << "Ingrese Nombre del Cliente: ";
     cin.getline(nombreCliente, 30);
@@ -73,18 +78,17 @@ void AdicionarVentaManual(string nombreArchivoTexto)
     cout << "Ingrese la cantidad comprada: ";
     cin >> cantidadComprada;
 
-    archivo.open(nombreArchivoTexto, ios::app); 
+    archivo.open("VENTAS.txt", ios::app);
 
-    if (archivo.good()) 
+    if (archivo.good())
     {
         archivo << ci << ";" << nombreCliente << ";" << codigoProducto << ";" << cantidadComprada << endl;
-        cout << endl;
-        cout << "\tSe ha registrado la venta manual correctamente" << endl;
-        
+
+        cout << "\nSe ha registrado la venta manual correctamente" << endl;
+        archivo.close(); 
     }
     else
     {
-        cout << "Error no se pudo abrir o crear el archivo " << nombreArchivoTexto << endl;
+        cout << "Error: No se pudo abrir o crear el archivo de ventas VENTAS.txt" << endl;
     }
-     archivo.close();
 }

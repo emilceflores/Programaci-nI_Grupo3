@@ -5,20 +5,16 @@
 
 using namespace std;
 
-void Mostrarmenu(string archivoBinario,string archivoTexto);
+void Mostrarmenu();
 int main() 
 {
-    
-    string archivoBinario = "PRODUCTOS.BIN";
-    string archivoTexto = "VENTAS.txt";
     system("chcp 65001");
-    Mostrarmenu(archivoBinario,archivoTexto);
+    Mostrarmenu();
 
     return 0;
 } 
-void Mostrarmenu(string archivoBinario,string archivoTexto)
+void Mostrarmenu()
 {
-    int codigoBuscar= 0;
     int opcion=0 ;
     do
     {
@@ -45,12 +41,7 @@ void Mostrarmenu(string archivoBinario,string archivoTexto)
 
             case 3:
 
-                cout << "BUSQUEDA DE PRODUCTOS" << endl;
-                cout << "=====================" << endl;
-                cout << "Ingrese el codigo de producto a buscar: ";
-                cin >> codigoBuscar;
-                
-                BuscarProductoPorCodigo(archivoBinario, codigoBuscar);
+                BuscarProductoPorCodigo();
                 system("pause");
 
                 break;
@@ -61,7 +52,7 @@ void Mostrarmenu(string archivoBinario,string archivoTexto)
 
             case 5:
 
-                AdicionarVentaManual(archivoTexto);
+                AdicionarVentaManual();
                 system("pause");
                 break;
             
