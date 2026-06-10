@@ -40,7 +40,7 @@ void Mostrarmenu()
                 adicionarProducto();
                 system("pause");
                 break;
-
+            
             case 2:
                 procesarVentas();
                 system("pause");
