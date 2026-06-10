@@ -50,7 +50,7 @@ void BuscarProductoPorCodigo(string nombreArchivoBinario, int codigoBuscar)
 
 void AdicionarVentaManual(string nombreArchivoTexto)
 {
-    ofstream archivo;
+    ofstream archivo; //EScribir en el archivo
     
     long int ci;
     char nombreCliente[30];
@@ -73,18 +73,18 @@ void AdicionarVentaManual(string nombreArchivoTexto)
     cout << "Ingrese la cantidad comprada: ";
     cin >> cantidadComprada;
 
-    archivo.open(nombreArchivoTexto, ios::app);
+    archivo.open(nombreArchivoTexto, ios::app); 
 
-    if (archivo.good())
+    if (archivo.good()) 
     {
         archivo << ci << ";" << nombreCliente << ";" << codigoProducto << ";" << cantidadComprada << endl;
         cout << endl;
         cout << "\tSe ha registrado la venta manual correctamente" << endl;
         
-        archivo.close();
     }
     else
     {
         cout << "Error no se pudo abrir o crear el archivo " << nombreArchivoTexto << endl;
     }
+     archivo.close();
 }
