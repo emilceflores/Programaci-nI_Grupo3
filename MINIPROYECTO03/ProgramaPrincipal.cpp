@@ -1,20 +1,24 @@
-//PROGRAMA PRINCIPAL
 #include <iostream>
-#include "LibDiana.h"
 #include "LibJhoel.h"
+#include "LibDiana.h"
 #include "LibEmilce.h"
 
 using namespace std;
 
-void Mostrarmenu();
+void Mostrarmenu(string archivoBinario,string archivoTexto);
 int main() 
 {
-    Mostrarmenu();
+    
+    string archivoBinario = "PRODUCTOS.BIN";
+    string archivoTexto = "VENTAS.txt";
+    system("chcp 65001");
+    Mostrarmenu(archivoBinario,archivoTexto);
 
     return 0;
 } 
-void Mostrarmenu()
+void Mostrarmenu(string archivoBinario,string archivoTexto)
 {
+    int codigoBuscar= 0;
     int opcion=0 ;
     do
     {
@@ -40,6 +44,15 @@ void Mostrarmenu()
                 break;
 
             case 3:
+
+                cout << "BUSQUEDA DE PRODUCTOS" << endl;
+                cout << "=====================" << endl;
+                cout << "Ingrese el codigo de producto a buscar: ";
+                cin >> codigoBuscar;
+                
+                BuscarProductoPorCodigo(archivoBinario, codigoBuscar);
+                system("pause");
+
                 break;
 
             case 4:
@@ -47,6 +60,13 @@ void Mostrarmenu()
                 break;
 
             case 5:
+
+                AdicionarVentaManual(archivoTexto);
+                system("pause");
+                break;
+            
+            case 0:
+                cout << "Saliendo del sistema de Farmacias Chávez..." << endl;
                 break;
             
             default:

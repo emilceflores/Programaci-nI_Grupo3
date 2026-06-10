@@ -10,6 +10,44 @@
 
 using namespace std;
 
+void BuscarProductoPorCodigo(string nombreArchivoBinario, int codigoBuscar)
+{
+    ifstream archivo;
+    structProducto producto; 
+    bool encontrado = false;
+    system("cls");
+
+    archivo.open(nombreArchivoBinario, ios::binary);
+
+    if (archivo.good())
+    {
+        while (archivo.read((char*) &producto, sizeof(structProducto)))
+        {
+            if (producto.codigo == codigoBuscar)
+            {
+                cout << "\nPRODUCTO ENCONTRADO" << endl;
+                cout << "==================" << endl;
+                cout << "Codigo:          " << producto.codigo << endl;
+                cout << "Nombre:          " << producto.nombre << endl;
+                cout << "Stock Inicial:   " << producto.cantidadInicial << endl;
+                cout << "Precio Unitario: " << producto.precioUnitario << " Bs." << endl;
+                encontrado = true;
+            }
+        }
+
+        if (!encontrado)
+        {
+            cout << "\nEl producto con codigo [" << codigoBuscar << "] no existe en el inventario." << endl;
+        }
+    }
+    else
+    {
+        cout << "Error: No se pudo abrir el archivo de inventario " << nombreArchivoBinario << endl;
+    }
+
+    archivo.close();
+}
+
 void AdicionarVentaManual(string nombreArchivoTexto)
 {
     ofstream archivo;
