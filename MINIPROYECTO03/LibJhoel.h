@@ -183,11 +183,10 @@ void procesarVentas()
          << setw(15) << "CANT. INICIAL"
          << setw(10) << "PRECIO"
          << setw(15) << "CANT. VENDIDA"
-         << setw(12) << "TOTAL Bs."
-         << setw(20) << "ESTADO"
+         << setw(12) << "TOTAL(Bs)"
          << endl;
 
-    cout << "====================================================================================================\n";
+    cout << "=======================================================================================\n";
 
     while (archivo.read((char*)&producto, sizeof(producto)))
     {
@@ -198,36 +197,20 @@ void procesarVentas()
             int cantidadAntes = producto.cantidadInicial;
             double total = cantidadVendida * producto.precioUnitario;
 
-            if (cantidadVendida <= producto.cantidadInicial)
-            {
-                producto.cantidadInicial = producto.cantidadInicial - cantidadVendida;
+            cout << left
+                 << setw(10) << producto.codigo
+                 << setw(25) << producto.nombre
+                 << setw(15) << cantidadAntes
+                 << setw(10) << fixed << setprecision(2) << producto.precioUnitario
+                 << setw(15) << cantidadVendida
+                 << setw(12) << fixed << setprecision(2) << total
+                 << endl;
 
-                cout << left
-                     << setw(10) << producto.codigo
-                     << setw(25) << producto.nombre
-                     << setw(15) << cantidadAntes
-                     << setw(10) << fixed << setprecision(2) << producto.precioUnitario
-                     << setw(15) << cantidadVendida
-                     << setw(12) << fixed << setprecision(2) << total
-                     << setw(20) << "Venta realizada"
-                     << endl;
+            producto.cantidadInicial = producto.cantidadInicial - cantidadVendida;
 
-                archivo.seekp(-int(sizeof(producto)), ios::cur);
-                archivo.write((char*)&producto, sizeof(producto));
-                archivo.seekg(archivo.tellp());
-            }
-            else
-            {
-                cout << left
-                     << setw(10) << producto.codigo
-                     << setw(25) << producto.nombre
-                     << setw(15) << cantidadAntes
-                     << setw(10) << fixed << setprecision(2) << producto.precioUnitario
-                     << setw(15) << cantidadVendida
-                     << setw(12) << fixed << setprecision(2) << total
-                     << setw(20) << "Stock insuficiente"
-                     << endl;
-            }
+            archivo.seekp(-int(sizeof(producto)), ios::cur);
+            archivo.write((char*)&producto, sizeof(producto));
+            archivo.seekg(archivo.tellp());
         }
     }
 
