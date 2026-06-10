@@ -1,3 +1,9 @@
+// Materia: Programación I, Paralelo 4
+// Grupo: 3.
+// Autor: Emilce Jael Flores Gutierrez.
+// Fecha creación: 01-06-2026
+// Nombre del miniproyecto : Sistema de Inventario y Ventas - Farmacias Chávez
+
 #include <iostream>
 #include <fstream>
 #include <string>
