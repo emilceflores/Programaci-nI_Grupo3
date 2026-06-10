@@ -16,7 +16,7 @@ void ModificarProducto(string NombreArchivo)
     fstream archivo;
     int codigoBuscado;
 
-    // Variable para indicar si se encontró el producto
+    // indica si se encontró el producto
     bool encontrado = false;
 
     system("cls");
