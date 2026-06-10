@@ -55,40 +55,67 @@ void BuscarProductoPorCodigo()
 
 void AdicionarVentaManual()
 {
-    ofstream archivo;
+    ifstream archivoLectura;   // solo para LEER PRODUCTOS.BIN
+    ofstream archivoEscritura;  // para ESCRIBIR en VENTAS.txt
     
-    int ci;
-    char nombreCliente[30];
+    structProducto producto;
     int codigoProducto;
     int cantidadComprada;
+    bool productoExiste = false;
+
+    long int ci;
+    char nombreCliente[30];
 
     cout << "ADICIONAR VENTA MANUAL" << endl;
     cout << "======================" << endl;
     
     cout << "Ingrese CI del Cliente: "; 
     cin >> ci;
-    cin.ignore(); 
+    cin.ignore(); // Limpia el buffer
     
     cout << "Ingrese Nombre del Cliente: ";
     cin.getline(nombreCliente, 30);
-    
+
+    //Pedir el codigo del producto y verificar si existe
     cout << "Ingrese el codigo del producto: ";
     cin >> codigoProducto;
+
+    archivoLectura.open("PRODUCTOS.BIN", ios::binary); // Abrimos para LEER archivo binario
+    if (archivoLectura.good())
+    {
+        while (archivoLectura.read((char*)&producto, sizeof(structProducto)))
+        {
+            if (producto.codigo == codigoProducto)
+            {
+                productoExiste = true;
+                break;    //se encontro el producto, salimos del ciclo de lectura
+            }
+        }
+    }
     
+    archivoLectura.close(); // Cerramos la lectura 
+    // si el producto no existe, detenemos el proceso de inmediato
+    if (!productoExiste)
+    {
+        cout << "\nERROR: El codigo [" << codigoProducto << "] no existe en el inventario." << endl;
+        return; // devolvemos el mensaje 
+    }
+
     cout << "Ingrese la cantidad comprada: ";
     cin >> cantidadComprada;
 
-    archivo.open("VENTAS.txt", ios::app);
+    // opcion 5 , registrar la transacción en el archivo.txt
+    archivoEscritura.open("VENTAS.txt", ios::app); // Abrimos exclusivamente para ESCRIBIR/AÑADIR
 
-    if (archivo.good())
+    if (archivoEscritura.good())
     {
-        archivo << ci << ";" << nombreCliente << ";" << codigoProducto << ";" << cantidadComprada << endl;
-
-        cout << "\nSe ha registrado la venta manual correctamente" << endl;
-        archivo.close(); 
+        // seguimos el orden 
+        archivoEscritura << ci << ";" << nombreCliente << ";" << codigoProducto << ";" << cantidadComprada << endl;
+        cout << "\tSe ha registrado la venta manual correctamente" << endl;
     }
     else
     {
-        cout << "Error: No se pudo abrir o crear el archivo de ventas VENTAS.txt" << endl;
+        cout << "Error: No se pudo abrir o crear el archivo de ventas (VENTAS.txt)" << endl;
     }
+    archivoEscritura.close(); // Cierre 
 }
