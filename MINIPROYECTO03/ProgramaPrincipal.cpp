@@ -6,6 +6,7 @@
 using namespace std;
 
 void Mostrarmenu();
+
 int main() 
 {
     system("chcp 65001");
@@ -13,9 +14,11 @@ int main()
 
     return 0;
 } 
+
 void Mostrarmenu()
 {
-    int opcion=0 ;
+    int opcion = 0;
+
     do
     {
         system("cls");
@@ -29,29 +32,31 @@ void Mostrarmenu()
         cout << "\t5. Adicionar Ventas Manuales" << endl;
         cout << "\t0. Salir" << endl;
         cout << "Seleccione una opcion: "; 
-        cin>>opcion;
+        cin >> opcion;
 
         switch(opcion)
         {
             case 1:
+                adicionarProducto();
+                system("pause");
                 break;
 
             case 2:
+                procesarVentas();
+                system("pause");
                 break;
 
             case 3:
-
                 BuscarProductoPorCodigo();
                 system("pause");
-
                 break;
 
             case 4:
                 ModificarProducto();
+                system("pause");
                 break;
 
             case 5:
-
                 AdicionarVentaManual();
                 system("pause");
                 break;
@@ -61,17 +66,15 @@ void Mostrarmenu()
                 break;
             
             default:
-                if (opcion !=0)
+                if (opcion != 0)
                 {
-                    cout<<"Opcion no valida."<<endl;
+                    cout << "Opcion no valida." << endl;
                     system("pause");
                 }
                 break;
-                
         }
-    } while (opcion != 0);
-    system("cls");
-    
-}
 
-    
+    } while (opcion != 0);
+
+    system("cls");
+} 
