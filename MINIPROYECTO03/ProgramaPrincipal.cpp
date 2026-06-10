@@ -1,26 +1,20 @@
+//PROGRAMA PRINCIPAL
 #include <iostream>
-#include <fstream>
-#include <string>
-#include <cstring>
-#include <iomanip>
+#include "LibDiana.h"
+#include "LibJhoel.h"
+#include "LibEmilce.h"
 
 using namespace std;
 
-struct structProducto 
+void Mostrarmenu()
 {
-    int codigo;
-    char nombre[30];
-    int cantidadInicial;
-    double precioUnitario;
-};
-
-void mostrarmenu() 
-{
-    cout << "  FARMACIAS CHAVEZ\n";
-    cout << "1. Adicionar producto\n";
-    cout << "2. Procesar ventas y listar resultados\n";
-    cout << "3. Salir\n";
-    cout << "Elija una opcion: ";
+    cout << "FARMACIAS CHAVEZ" << endl;
+    cout << "================" << endl;
+    cout << "1. Adicionar producto" << endl;
+    cout << "2. Adicionar venta manual" << endl;
+    cout << "3. Modificar producto" << endl;
+    cout << "0. Salir" << endl;
+    cout << "Seleccione una opcion: ";
 }
 
 int main() 
@@ -29,10 +23,26 @@ int main()
 
     do 
     {
-        mostrarmenu();
+        system("cls");
+
+        Mostrarmenu();
         cin >> opcion;
-    } 
-    while (opcion != 3);
+        switch(opcion)
+        {
+            case 1:
+                break;
+
+            case 2:
+                break;
+
+            case 3:
+                ModificarProducto();
+                system("pause");
+                break;
+        }
+
+    } while(opcion != 0);
 
     return 0;
-}
+} 
+    
