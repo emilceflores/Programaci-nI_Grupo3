@@ -1,9 +1,8 @@
 // Materia: Programación I, Paralelo 4
 // Grupo: 3.
-// Autor: Jhoel Marco Machicado Flores .
+// Autor: Jhel Marco Machicado Flores.
 // Fecha creación: 1-06-2026
 // Nombre del miniproyecto : Sistema de Inventario y Ventas - Farmacias Chávez
-
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -40,7 +39,7 @@ bool codigoexiste(int codigobuscado)
     return false;
 }
 
-// Verifica si el nombre del producto ya existe en PRODUCTOS.BIN
+// Verifica si el nombre ya existe en PRODUCTOS.BIN
 bool nombreexiste(char nombrebuscado[])
 {
     ifstream archivo("PRODUCTOS.BIN", ios::binary);
@@ -59,7 +58,7 @@ bool nombreexiste(char nombrebuscado[])
     return false;
 }
 
-// PUNTO 1: Adiciona productos al archivo PRODUCTOS.BIN
+// Punto 1: adiciona un producto al archivo binario
 void adicionarProducto()
 {
     structProducto producto;
@@ -98,10 +97,10 @@ void adicionarProducto()
 
     archivo.close();
 
-    cout << "Producto guardado correctamente.\n";
+    cout << "\nProducto guardado correctamente.\n";
 }
 
-// Acumula las ventas cuando el mismo codigo aparece varias veces en VENTAS.txt
+// Acumula ventas del mismo codigo de producto
 void agregarVenta(int codigoVenta, int cantidadVenta, int codigos[], int cantidades[], int &n)
 {
     for (int i = 0; i < n; i++)
@@ -118,7 +117,7 @@ void agregarVenta(int codigoVenta, int cantidadVenta, int codigos[], int cantida
     n++;
 }
 
-// Busca la cantidad vendida de un producto por su codigo
+// Busca la cantidad vendida de un producto
 int buscarCantidadVendida(int codigoProducto, int codigos[], int cantidades[], int n)
 {
     for (int i = 0; i < n; i++)
@@ -132,7 +131,7 @@ int buscarCantidadVendida(int codigoProducto, int codigos[], int cantidades[], i
     return 0;
 }
 
-// PUNTO 2: Procesa VENTAS.txt, lista resultados y actualiza stock
+// Punto 2: procesa VENTAS.txt, muestra reporte y actualiza stock
 void procesarVentas()
 {
     ifstream ventas("VENTAS.txt");
@@ -152,7 +151,6 @@ void procesarVentas()
     string codigoTexto;
     string cantidadTexto;
 
-    // Lee el archivo VENTAS.txt separado por punto y coma
     while (getline(ventas, ci, ';'))
     {
         getline(ventas, nombreCliente, ';');
